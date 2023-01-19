@@ -26,8 +26,8 @@ The login process is done following the ZKP Protocol shown in the diagram. Been 
 
 ## Tasks in hand
 
-Design and write the code that implements the ZKP Protocol outlined above. The solution should be implemented as server and client using gRPC protocol according to the provided interface described in the “protobuf” schema. The code should implement very simple server and client applications. We would like to see how you are thinking about and approaching the problem, so a simple description of your approach and how you’d extend it or integrate would be helpful
-
+Design and write the code that implements the ZKP Protocol outlined above. 
+The solution should be implemented as server and client using gRPC protocol.
 
 # Instructions on how to run/deploy/test 
 
