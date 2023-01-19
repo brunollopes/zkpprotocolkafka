@@ -1,0 +1,9 @@
+#kafka:
+#  streams:
+#    default:
+#      application-id: micronaut-defualt-kafka
+#      processing.guarantee: "exactly_once"
+#      auto.offset.reset: "earliest"
+#    word-count:
+#      start-kafka-streams: false
+#      application-id: micronaut-example-kafka

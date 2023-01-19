@@ -1,0 +1,9 @@
+micronaut:
+  application:
+    name: zkpclienttest
+  server:
+    port: 8800
+
+kafka:
+  bootstrap:
+    servers: localhost:29092

@@ -1,0 +1,52 @@
+version: '3.7'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    ports:
+      - 2181:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - zkp-compose-network
+  kafka:
+    image: confluentinc/cp-kafka
+    depends_on:
+      - zookeeper
+    ports:
+       - 29092:29092
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_INTERNAL://kafka:9092,LISTENER_EXTERNAL://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_INTERNAL:PLAINTEXT,LISTENER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - zkp-compose-network
+  zkp-verifier:
+    image: bllopes/zkpverifier:0.0.1
+    depends_on:
+      - kafka
+    ports:
+      - "8082:8082"
+    environment:
+      KAFKA_SERVICE_HOST: kafka:9092
+    restart: always
+    networks:
+      - zkp-compose-network
+  zkp-prover:
+    image: bllopes/zkpprover:0.0.1
+    depends_on:
+      - kafka
+      - zkp-verifier
+    ports:
+      - "8000:8000"
+    environment:
+      KAFKA_SERVICE_HOST: kafka:9092
+      VERIFIER_SERVICE_HOST: zkp-verifier:8082
+    restart: always
+    networks:
+      - zkp-compose-network
+# Networks to be created to facilitate communication between containers
+networks:
+  zkp-compose-network:
